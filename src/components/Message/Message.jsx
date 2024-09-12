@@ -8,6 +8,7 @@ function Message({ message, user }) {
       style={{
         alignSelf: user === "me" ? "flex-end" : "flex-start",
         backgroundColor: user === "me" ? "#6f6464" : "#5271ff",
+        textAlign: user === "me" ? "right" : "left",
       }}
     >
       <p>{message}</p>
