@@ -1,0 +1,53 @@
+.message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  margin: 0 auto;
+}
+
+.saisir-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  width: 80%;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 20px;
+}
+
+.saisir {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.saisir:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.saisir::placeholder {
+  font-style: italic;
+}
+
+.btn-saisir {
+  background-color: #5271ff;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 80px;
+  border-radius: 10px;
+  font-size: 18px;
+}

@@ -1,0 +1,14 @@
+.title {
+}
+
+.title-h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-style: italic;
+  font-size: 18px;
+  font-weight: 200;
+  margin-top: -25px;
+}
