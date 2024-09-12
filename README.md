@@ -7,7 +7,7 @@ Chat with Gemini AI and get an answer
 1. Clone the repository
 
    ```bash
-   git clone [text](https://github.com/Moh7ven/chat-with-gemini-app.git)
+   git clone ***https://github.com/Moh7ven/chat-with-gemini-app.git***
    ```
 
 2. Enter your gemini API key in the **_.env _** file
