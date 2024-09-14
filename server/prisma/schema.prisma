@@ -1,0 +1,30 @@
+datasource db {
+    provider = "sqlite"
+    url = "file:./dev.db"
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    name String 
+    email String @unique
+    phoneNumber String @unique
+    password String
+    chats Chat[] // l'utilisateur peut creer plusieurs conversations
+}
+
+model Chat {
+    id Int @id @default(autoincrement())
+    name String
+    userId Int 
+    user User @relation(fields: [userId], references: [id])
+    messages Message[]
+}
+
+model Message {
+    id Int @id @default(autoincrement())
+    text String
+    isIA Boolean @default(false)
+    date DateTime @default(now())
+    chatId Int 
+    chat Chat  @relation(fields: [chatId], references: [id])
+}
