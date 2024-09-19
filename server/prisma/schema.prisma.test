@@ -1,6 +1,6 @@
 datasource db {
-    provider = "sqlite"
-    url = "file:./dev.db"
+    provider = "mongodb"
+    url = env("DATABASE_URL")
 }
 
 generator client {
@@ -8,7 +8,7 @@ generator client {
 }
 
 model User {
-    id Int @id @default(autoincrement())
+    id String @id @default(auto()) @map("_id") @db.ObjectId
     name String 
     email String @unique
     phoneNumber String @unique
@@ -17,18 +17,18 @@ model User {
 }
 
 model Chat {
-    id Int @id @default(autoincrement())
+    id String @id @default(auto()) @map("_id") @db.ObjectId
     name String
-    userId Int 
+    userId String @db.ObjectId
     user User @relation(fields: [userId], references: [id])
     messages Message[]
 }
 
 model Message {
-    id Int @id @default(autoincrement())
+    id String @id @default(auto()) @map("_id") @db.ObjectId
     text String
     isIA Boolean @default(false)
     date DateTime @default(now())
-    chatId Int 
+    chatId String @db.ObjectId
     chat Chat  @relation(fields: [chatId], references: [id])
 }
