@@ -1,8 +1,10 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const generateToken = async (data) => {
   try {
-    const token = await jwt.sign(data, "nan2025", {
+    const token = await jwt.sign(data, process.env.JWT_SECRET, {
       expiresIn: 60 * 15,
     });
     console.log(token);
@@ -15,7 +17,7 @@ export const generateToken = async (data) => {
 
 export const verifyToken = async (token) => {
   try {
-    const verify = await jwt.verify(token, "nan2025");
+    const verify = await jwt.verify(token, process.env.JWT_SECRET);
     console.log(verify);
 
     if (verify) return verify;
