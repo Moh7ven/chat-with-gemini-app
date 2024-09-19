@@ -4,6 +4,8 @@ import Gemini from "gemini-ai";
 import dotenv from "dotenv";
 import prisma from "./lib/prisma-client.js";
 import authRouter from "./routers/auth.router.js";
+import chatRouter from "./routers/chat.router.js";
+import { checkUser } from "./middlewares/checkUser.js";
 dotenv.config();
 
 const app = express();
@@ -22,6 +24,7 @@ app.post("/api/send-message", async (req, res) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/chat", checkUser, chatRouter);
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");

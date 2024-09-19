@@ -1,6 +1,7 @@
 import signUpSchema from "../validators/signup.validator.js";
 import signInSchema from "../validators/signin.validator.js";
 import prisma from "../lib/prisma-client.js";
+import { generateToken } from "../lib/jwt.js";
 
 export const signUp = async (req, res) => {
   try {
@@ -11,13 +12,11 @@ export const signUp = async (req, res) => {
     const newUser = await prisma.user.create({
       data: check,
     });
-    console.log(check);
-
     // console.log("newUser:", newUser);
     res.json({ message: "Okk", newUser });
   } catch (error) {
     console.log(error.message);
-    res.send({ message: error.message });
+    res.json({ message: error.message });
   }
 };
 
@@ -25,8 +24,23 @@ export const signIn = async (req, res) => {
   try {
     const data = req.body;
     let check = await signInSchema.validate(data);
-    let user = await prisma.user.findFirst();
+    console.log("Check :", check);
+
+    let user = await prisma.user.findFirst({
+      where: {
+        email: check.email,
+        password: check.password,
+      },
+    });
+    console.log("User", user);
+    if (user) {
+      const token = await generateToken({ id: user.id, email: user.email });
+      console.log("Token", token);
+      if (token) res.json({ status: true, data: token });
+      else res.json({ status: false, data: "erreur token" });
+    }
   } catch (error) {
-    
+    console.log(error.message);
+    res.send({ message: error.message });
   }
 };
