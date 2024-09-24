@@ -36,7 +36,7 @@ export default function SignUp() {
   };
 
   return (
-    <div>
+    <div className="connect-container">
       <h1>Sign Up</h1>
 
       <form className="form-connect">
@@ -84,8 +84,8 @@ export default function SignUp() {
 
         <p className="text-connect">{message}</p>
       </form>
-      <p className="text-connect" onClick={() => navigate("/signin")}>
-        Vous avez deja un compte ? Connectez-vous
+      <p className={{ cursor: "pointer" }} onClick={() => navigate("/signin")}>
+        You have an account ? Sign In
       </p>
     </div>
   );

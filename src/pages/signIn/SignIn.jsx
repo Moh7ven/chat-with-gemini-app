@@ -19,6 +19,7 @@ export default function SignIn() {
   }, []); */
 
   const signIn = async () => {
+    console.log(donnee);
     const request = await axios.post(
       "http://localhost:4000/api/auth/signIn",
       donnee
@@ -27,16 +28,18 @@ export default function SignIn() {
       localStorage.setItem("user", JSON.stringify(request.data.data));
       setMessge("Welcome");
       setTimeout(() => {
-        navigate("/quizz");
+        navigate("/chat");
       }, 2000);
     } else {
-      setMessge(request.data.message);
+      setTimeout(() => {
+        setMessge(request.data.message);
+      });
     }
     //   navigate("/quizz");
   };
 
   return (
-    <div>
+    <div className="connect-container">
       <h1>Sign In</h1>
       <p></p>
       <form className="form-connect">
@@ -53,9 +56,7 @@ export default function SignIn() {
           placeholder="password"
           className="input-connect"
           id="password"
-          onChange={(e) =>
-            setDonnee({ ...donnee, phoneNumber: e.target.value })
-          }
+          onChange={(e) => setDonnee({ ...donnee, password: e.target.value })}
         />
         {/* <p className="text-connect forgot">Mot de passe oublie ?</p> */}
         <button
@@ -68,6 +69,7 @@ export default function SignIn() {
         >
           Se connecter
         </button>
+        <p className="text-connect">{message}</p>
       </form>
       <p onClick={() => navigate("/")}>You don't have an account ? Sign Up</p>
     </div>

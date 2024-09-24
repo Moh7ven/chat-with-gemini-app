@@ -3,7 +3,8 @@
   background-color: white;
   border-radius: 16px;
   height: 452px;
-  width: 100%;
+  max-width: 500px;
+  margin: auto;
 }
 
 .title {
