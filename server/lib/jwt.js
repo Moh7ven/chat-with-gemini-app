@@ -18,7 +18,6 @@ export const generateToken = async (data) => {
 export const verifyToken = async (token) => {
   try {
     const verify = await jwt.verify(token, process.env.JWT_SECRET);
-    console.log(verify);
 
     if (verify) return verify;
     else return false;

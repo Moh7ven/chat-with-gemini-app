@@ -14,8 +14,10 @@ export const checkUser = async (req, res, next) => {
             email: verify.email,
           },
         });
-        if (user) next();
-        else res.status(403).send("User not found");
+        if (user) {
+          res.locals.userId = verify.id;
+          next();
+        } else res.status(403).send("User not found");
       } else res.status(403).send("Token not valid");
     } else res.status(403).send("Token not found");
   } catch (error) {
