@@ -1,4 +1,7 @@
 import prisma from "../lib/prisma-client.js";
+import Gemini from "gemini-ai";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const createChat = async (req, res) => {
   try {
@@ -41,12 +44,22 @@ export const addMessage = async (req, res) => {
       if (chat) {
         const message = await prisma.message.create({
           data: {
-            text: req.body.text,
+            text: text,
             chatId: parseInt(chatId),
           },
         });
         if (message) {
-          res.json(message);
+          const gemini = new Gemini(process.env.GEMINI_API_KEY);
+          const response = await gemini.ask(message.text);
+          console.log(response);
+          const geminiResponse = await prisma.message.create({
+            data: {
+              text: response,
+              isIA: true,
+              chatId: parseInt(chatId),
+            },
+          });
+          res.json(geminiResponse.text);
         } else {
           res.status(502).json({ message: "Message not created" });
         }

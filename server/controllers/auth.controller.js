@@ -13,7 +13,7 @@ export const signUp = async (req, res) => {
       data: check,
     });
     // console.log("newUser:", newUser);
-    res.json({ message: "Okk", newUser });
+    res.json({ message: "Okk", newUser, status: true });
   } catch (error) {
     console.log(error.message);
     res.json({ message: error.message });
