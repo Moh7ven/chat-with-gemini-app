@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  useEffect(() => {
+    const check = localStorage.getItem("user");
+    if (check) {
+      navigate("/chat");
+    }
+  }, []);
+
   const [donnee, setDonnee] = useState({
     name: "",
     email: "",

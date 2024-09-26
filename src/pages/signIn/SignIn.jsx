@@ -11,12 +11,12 @@ export default function SignIn() {
   const [message, setMessge] = useState("");
   const navigate = useNavigate();
 
-  /* useEffect(() => {
+  useEffect(() => {
     const check = localStorage.getItem("user");
     if (check) {
-      navigate("/quizz");
+      navigate("/chat");
     }
-  }, []); */
+  }, []);
 
   const signIn = async () => {
     console.log(donnee);
@@ -31,9 +31,11 @@ export default function SignIn() {
         navigate("/chat");
       }, 2000);
     } else {
+      console.log(request.data.data);
+      setMessge(request.data.data);
       setTimeout(() => {
-        setMessge(request.data.message);
-      });
+        setMessge("");
+      }, 2000);
     }
     //   navigate("/quizz");
   };

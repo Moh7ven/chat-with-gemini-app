@@ -5,6 +5,7 @@ dotenv.config();
 
 export const createChat = async (req, res) => {
   try {
+    console.log(res.locals.userId);
     const name = req.body.name;
     if (name) {
       if (typeof name === "string") {
@@ -15,7 +16,7 @@ export const createChat = async (req, res) => {
           },
         });
         console.log(chat);
-        res.json(chat);
+        res.status(200).json({ chat, status: true });
       } else {
         res.json({ message: "Name must be a string" });
       }

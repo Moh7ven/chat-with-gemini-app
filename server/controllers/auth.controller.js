@@ -38,7 +38,7 @@ export const signIn = async (req, res) => {
       console.log("Token", token);
       if (token) res.json({ status: true, data: token });
       else res.json({ status: false, data: "erreur token" });
-    }
+    } else res.json({ status: false, data: "User not found" });
   } catch (error) {
     console.log(error.message);
     res.send({ message: error.message });

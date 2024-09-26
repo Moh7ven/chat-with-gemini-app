@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 15px;
+  margin-right: 20px;
+}
+
+.buttonDisconnected {
+  width: 100px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  font-weight: bold;
+  color: white;
+  background-color: #e41b1b;
+}
+
+.buttonDisconnected:hover {
+  cursor: pointer;
+  border: 1px solid white;
+}

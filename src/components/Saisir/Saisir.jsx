@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Saisir.css";
 import Message from "../Message/Message";
 import axios from "axios";
+import ButtonDisconnected from "../ButtonDisconnected/ButtonDisconnected";
 
 function Saisir() {
   const [message, setMessage] = useState([]);
@@ -36,6 +37,7 @@ function Saisir() {
         marginBottom: "30px",
       }}
     >
+      <ButtonDisconnected />
       <div className="message-container">
         {message.map((element, index) => (
           <Message message={element.message} user={element.user} key={index} />

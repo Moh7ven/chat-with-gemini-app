@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  color: #656565;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.container:hover {
+  cursor: pointer;
+  background-color: #e5e5e5;
+  border: 1px solid #5271ff;
+}

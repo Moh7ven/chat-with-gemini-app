@@ -1,9 +1,79 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ButtonDisconnected from "../../components/ButtonDisconnected/ButtonDisconnected";
+import s from "./Chat.module.css";
+import OldChatsComponent from "../../components/OldChatsComponent/OldChatsComponent";
+import axios from "axios";
 
 function Chat() {
+  const navigate = useNavigate();
+  const [chatTitle, setChatTitle] = useState("");
+  const [messageApi, setMessageApi] = useState("");
+
+  const addNewChat = async () => {
+    const newChat = await axios.post(
+      "http://localhost:4000/api/chat",
+      {
+        name: chatTitle,
+      },
+      {
+        headers: {
+          Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
+        },
+      }
+    );
+    if (newChat.data.status === true) {
+      setMessageApi("Chat created successfully");
+      setTimeout(() => {
+        navigate("/message");
+      }, 2000);
+    }
+    /*  if (newChat.status === 403) {
+      setMessageApi(newChat.response.data);
+      setTimeout(() => {
+        navigate("/signin");
+      }, 3000);
+    } */
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem("user")) {
+      navigate("/signin");
+    }
+  });
+
+  useEffect(() => {
+    const getAllChats = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/chats");
+        console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  }, []);
   return (
     <div>
+      <ButtonDisconnected />
       <h1>Create new chat</h1>
+      <div className={s.addContainer}>
+        <input
+          type="text"
+          placeholder="Add a new chat"
+          className={s.inputAddChat}
+          onChange={(e) => setChatTitle(e.target.value)}
+        />
+        <button className={s.buttonAddChat} onClick={() => addNewChat()}>
+          +
+        </button>
+      </div>
+      <p>{messageApi}</p>
+      <div className={s.oldChats}>
+        <h2>Old Chats</h2>
+        <div>
+          <OldChatsComponent />
+        </div>
+      </div>
     </div>
   );
 }

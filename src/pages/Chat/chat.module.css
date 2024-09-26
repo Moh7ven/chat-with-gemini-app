@@ -1,0 +1,40 @@
+.addContainer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.inputAddChat {
+  width: 60%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 18px;
+}
+
+.buttonAddChat {
+  background-color: #5271ff;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 80px;
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.buttonAddChat:hover {
+  opacity: 0.8;
+}
+
+.oldChats {
+  margin-top: 20px;
+  text-align: left;
+}
