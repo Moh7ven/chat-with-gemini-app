@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Saisir.css";
 import Message from "../Message/Message";
 import axios from "axios";
 import ButtonDisconnected from "../ButtonDisconnected/ButtonDisconnected";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Saisir() {
   const [message, setMessage] = useState([]);
   const [input, setInput] = useState("");
+  const params = useParams();
+  const navigate = useNavigate();
+
+  console.log(params.chatId);
 
   const sendRequest = async (message) => {
     const req = await axios.post("http://localhost:4000/api/send-message", {
@@ -26,6 +31,31 @@ function Saisir() {
     console.log(message);
     console.log(input);
   };
+
+  useEffect(() => {
+    if (!localStorage.getItem("user")) {
+      navigate("/signin");
+    }
+    axios
+      .get(
+        "http://localhost:4000/api/chat/getMessages?chatId=" + params.chatId,
+        {
+          headers: {
+            Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
+          },
+        }
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data.messages);
+          setMessage(res.data.messages);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/chat");
+      });
+  }, []);
 
   return (
     <div

@@ -8,12 +8,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import SignUp from "./pages/signUp/SignUp";
 import SignIn from "./pages/signIn/SignIn";
 import Chat from "./pages/Chat/Chat";
-import Saisi from "./pages/Message/Message";
+import Message from "./pages/Message/Message";
 function App() {
   const router = createBrowserRouter([
     { path: "/", element: <SignUp /> },
     { path: "/signin", element: <SignIn /> },
-    { path: "/message", element: <Saisi /> },
+    { path: "/message/:chatId", element: <Message /> },
     { path: "/chat", element: <Chat /> },
   ]);
   return (

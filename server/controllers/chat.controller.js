@@ -29,6 +29,20 @@ export const createChat = async (req, res) => {
   }
 };
 
+export const getAllChatByUser = async (req, res) => {
+  try {
+    const chats = await prisma.chat.findMany({
+      where: {
+        userId: res.locals.userId,
+      },
+    });
+    res.status(200).json({ chats, status: true });
+  } catch (error) {
+    console.log(error.message);
+    res.status(502).send(error.message);
+  }
+};
+
 export const addMessage = async (req, res) => {
   try {
     let chatId = req.query.chatId;
@@ -72,6 +86,32 @@ export const addMessage = async (req, res) => {
     }
   } catch (error) {
     console.log(error.errors);
+    res.status(502).send(error.message);
+  }
+};
+
+export const getMessages = async (req, res) => {
+  try {
+    const chatId = req.query.chatId;
+    if (chatId) {
+      const findChat = await prisma.chat.findFirst({
+        where: {
+          id: parseInt(chatId),
+        },
+        include: {
+          messages: true,
+        },
+      });
+      if (findChat) {
+        res.status(200).json({ messages: findChat.messages, status: true });
+      } else {
+        res.status(403).json({ message: "Chat not found" });
+      }
+    } else {
+      res.status(402).json({ message: "Query chatId is required" });
+    }
+  } catch (error) {
+    console.log(error.message);
     res.status(502).send(error.message);
   }
 };

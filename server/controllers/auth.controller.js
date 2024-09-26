@@ -32,10 +32,8 @@ export const signIn = async (req, res) => {
         password: check.password,
       },
     });
-    console.log("User", user);
     if (user) {
       const token = await generateToken({ id: user.id, email: user.email });
-      console.log("Token", token);
       if (token) res.json({ status: true, data: token });
       else res.json({ status: false, data: "erreur token" });
     } else res.json({ status: false, data: "User not found" });

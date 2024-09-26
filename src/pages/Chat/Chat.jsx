@@ -9,6 +9,7 @@ function Chat() {
   const navigate = useNavigate();
   const [chatTitle, setChatTitle] = useState("");
   const [messageApi, setMessageApi] = useState("");
+  const [chats, setChats] = useState([]);
 
   const addNewChat = async () => {
     const newChat = await axios.post(
@@ -25,7 +26,7 @@ function Chat() {
     if (newChat.data.status === true) {
       setMessageApi("Chat created successfully");
       setTimeout(() => {
-        navigate("/message");
+        navigate("/message/" + newChat.data.chat.id);
       }, 2000);
     }
     /*  if (newChat.status === 403) {
@@ -40,18 +41,23 @@ function Chat() {
     if (!localStorage.getItem("user")) {
       navigate("/signin");
     }
-  });
-
-  useEffect(() => {
-    const getAllChats = async () => {
-      try {
-        const response = await axios.get("http://localhost:3001/chats");
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+    axios
+      .get("http://localhost:4000/api/chat/getAllChats", {
+        headers: {
+          Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
+        },
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res.data);
+          setChats(res.data.chats);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
+
   return (
     <div>
       <ButtonDisconnected />
@@ -71,7 +77,10 @@ function Chat() {
       <div className={s.oldChats}>
         <h2>Old Chats</h2>
         <div>
-          <OldChatsComponent />
+          {chats &&
+            chats.map((chat, index) => (
+              <OldChatsComponent chat={chat} key={index} />
+            ))}
         </div>
       </div>
     </div>
