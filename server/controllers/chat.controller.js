@@ -45,18 +45,42 @@ export const getAllChatByUser = async (req, res) => {
 
 export const deleteChat = async (req, res) => {
   try {
-    const chatId = req.query.chatId;
-    if (chatId) {
-      const chat = await prisma.chat.delete({
+    const chatId = req.params.id;
+    const verifyUser = await prisma.chat.findFirst({
+      where: {
+        id: parseInt(chatId),
+        userId: res.locals.userId,
+      },
+    });
+    if (verifyUser) {
+      const deleteAllMessages = await prisma.message.deleteMany({
         where: {
-          id: parseInt(chatId),
+          chatId: parseInt(chatId),
         },
       });
-      res.status(200).json({ chat, status: true });
+      if (deleteAllMessages) {
+        const chat = await prisma.chat.delete({
+          where: {
+            id: parseInt(chatId),
+          },
+        });
+        res.status(200).json({ chat, status: true, message: "Chat deleted" });
+      } else {
+        res.status(402).json({
+          message: "Error while deleting all messages",
+          status: false,
+        });
+      }
     } else {
-      res.status(402).json({ message: "Query chatId is required" });
+      res.status(403).json({
+        message: "User not found, you can't delete this chat",
+        status: false,
+      });
     }
-  } catch (error) {}
+  } catch (error) {
+    console.log(error.message);
+    res.status(502).send(error.message);
+  }
 };
 
 export const addMessage = async (req, res) => {

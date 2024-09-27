@@ -20,3 +20,15 @@
   background-color: #e5e5e5;
   border: 1px solid #5271ff;
 }
+
+.delete {
+  background-color: #e41b1b;
+  color: white;
+  padding: 10px 10px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 80px;
+  border-radius: 10px;
+  font-size: 18px;
+}
