@@ -6,10 +6,11 @@
   width: 100%;
   padding: 20px;
   margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 .saisir-container {
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   right: 0;

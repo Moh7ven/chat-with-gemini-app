@@ -4,7 +4,7 @@ import prisma from "../lib/prisma-client.js";
 export const checkUser = async (req, res, next) => {
   try {
     const token = req.headers["authorization"];
-    console.log("token", token);
+    // console.log("token", token);
 
     if (token) {
       const verify = await verifyToken(token);

@@ -43,6 +43,22 @@ export const getAllChatByUser = async (req, res) => {
   }
 };
 
+export const deleteChat = async (req, res) => {
+  try {
+    const chatId = req.query.chatId;
+    if (chatId) {
+      const chat = await prisma.chat.delete({
+        where: {
+          id: parseInt(chatId),
+        },
+      });
+      res.status(200).json({ chat, status: true });
+    } else {
+      res.status(402).json({ message: "Query chatId is required" });
+    }
+  } catch (error) {}
+};
+
 export const addMessage = async (req, res) => {
   try {
     let chatId = req.query.chatId;

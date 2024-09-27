@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./Saisir.css";
 import Message from "../Message/Message";
 import axios from "axios";
@@ -14,18 +14,33 @@ function Saisir() {
   console.log(params.chatId);
 
   const sendRequest = async (message) => {
-    const req = await axios.post("http://localhost:4000/api/send-message", {
-      message: message,
-    });
+    const req = await axios.post(
+      `http://localhost:4000/api/chat/message?chatId=${params.chatId}`,
+      {
+        text: message,
+      },
+      {
+        headers: {
+          Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
+        },
+      }
+    );
 
     console.log(req);
-    setMessage((old) => [...old, { message: req.data, user: "gemini" }]);
+    if (req.status === 200) {
+      setMessage((old) => [
+        ...old,
+        { text: req.data, isIA: true, date: new Date() },
+      ]);
+    } else {
+      console.log("error");
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setMessage([...message, { message: input, user: "me" }]);
+    setMessage([...message, { text: input, isIA: false, date: new Date() }]);
     setInput("");
     sendRequest(input);
     console.log(message);
@@ -47,7 +62,7 @@ function Saisir() {
       )
       .then((res) => {
         if (res.status === 200) {
-          console.log(res.data.messages);
+          console.log("message:", res.data.messages);
           setMessage(res.data.messages);
         }
       })
@@ -70,7 +85,12 @@ function Saisir() {
       <ButtonDisconnected />
       <div className="message-container">
         {message.map((element, index) => (
-          <Message message={element.message} user={element.user} key={index} />
+          <Message
+            message={element.text}
+            isAI={element.isIA}
+            date={element.date}
+            key={index}
+          />
         ))}
       </div>
       <div className="saisir-container">
