@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonDisconnected from "../../components/ButtonDisconnected/ButtonDisconnected";
-import s from "./Chat.module.css";
+import s from "./chat.module.css";
 import OldChatsComponent from "../../components/OldChatsComponent/OldChatsComponent";
 import axios from "axios";
 
