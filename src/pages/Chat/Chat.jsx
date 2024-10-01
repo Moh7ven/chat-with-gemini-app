@@ -4,6 +4,7 @@ import ButtonDisconnected from "../../components/ButtonDisconnected/ButtonDiscon
 import s from "./chat.module.css";
 import OldChatsComponent from "../../components/OldChatsComponent/OldChatsComponent";
 import axios from "axios";
+import { io } from "socket.io-client";
 
 function Chat() {
   const navigate = useNavigate();
@@ -36,6 +37,29 @@ function Chat() {
       }, 3000);
     } */
   };
+
+  useEffect(() => {
+    const socket = new io("http://localhost:4000", {
+      auth: {
+        token: `${JSON.parse(localStorage.getItem("user"))}`,
+      },
+    });
+
+    socket.on("connect", () => {
+      console.log("connected");
+      socket.send("hello");
+    });
+    socket.on("message", (data) => {
+      console.log(data);
+    });
+    socket.on("socket", (data) => {
+      console.log(data);
+    });
+    /*  socket.on("salutation", (data) => {
+      console.log(data);
+    });
+    socket.emit("helloServer", "Je suis connecté"); */
+  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem("user")) {
