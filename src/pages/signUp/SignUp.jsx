@@ -6,7 +6,7 @@ export default function SignUp() {
   useEffect(() => {
     const check = localStorage.getItem("user");
     if (check) {
-      navigate("/chat");
+      navigate("/index");
     }
   }, []);
 
@@ -30,7 +30,7 @@ export default function SignUp() {
     if (request.data.status === true) {
       setMessge("Account created successfully");
       setTimeout(() => {
-        navigate("/signin");
+        navigate("/index");
       }, 2000);
     } else {
       setMessge(request.data.message);

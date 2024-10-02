@@ -14,7 +14,7 @@ export default function SignIn() {
   useEffect(() => {
     const check = localStorage.getItem("user");
     if (check) {
-      navigate("/chat");
+      navigate("/index");
     }
   }, []);
 
@@ -28,7 +28,7 @@ export default function SignIn() {
       localStorage.setItem("user", JSON.stringify(request.data.data));
       setMessge("Welcome");
       setTimeout(() => {
-        navigate("/chat");
+        navigate("/index");
       }, 2000);
     } else {
       console.log(request.data.data);

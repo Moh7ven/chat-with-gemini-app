@@ -55,10 +55,6 @@ function Chat() {
     socket.on("socket", (data) => {
       console.log(data);
     });
-    /*  socket.on("salutation", (data) => {
-      console.log(data);
-    });
-    socket.emit("helloServer", "Je suis connecté"); */
   }, []);
 
   useEffect(() => {
