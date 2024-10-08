@@ -48,9 +48,21 @@ function Principal() {
           })}
         </div>
         <div className="w-[83%] h-[100%] flex flex-col items-start justify-start">
-          <div className="w-full h-[95%] bg-gray-100">
-            <div className="w-[45%] rounded-md  bg-blue-400">
-              <p className="text-white text-md m-[1rem] p-4">
+          <div className="w-full h-[95%] bg-gray-100 flex flex-col items-start justify-start overflow-x-hidden">
+            <div className="w-[45%] rounded-md  bg-blue-400 m-2 my-10">
+              <p className="text-white text-md  p-4">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+                omnis iusto alias facilis magnam quisquam nemo ab sint ipsam
+                veniam eveniet rerum fugit unde officiis natus, distinctio
+                aliquam expedita sequi.
+              </p>
+              <span className="w-[100%] inline-block text-right text-white font-bold ">
+                {" "}
+                12:00
+              </span>
+            </div>
+            <div className="w-[45%] rounded-md  bg-white text-black self-end m-2 my-10">
+              <p className=" text-md  p-4">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat
                 omnis iusto alias facilis magnam quisquam nemo ab sint ipsam
                 veniam eveniet rerum fugit unde officiis natus, distinctio

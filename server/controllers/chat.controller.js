@@ -83,12 +83,12 @@ export const deleteChat = async (req, res) => {
   }
 };
 
-export const addMessage = async (req, res) => {
+export const addMessage = async (data) => {
   try {
-    let chatId = req.query.chatId;
-    let text = req.body.text;
+    let chatId = data.chatId;
+    let text = data.text;
     if (!text) {
-      res.json({ message: "Text is required" });
+      return { message: "Text is required" };
     }
     if (chatId) {
       const chat = await prisma.chat.findFirst({
@@ -100,33 +100,24 @@ export const addMessage = async (req, res) => {
         const message = await prisma.message.create({
           data: {
             text: text,
-            chatId: parseInt(chatId),
+            chatId: chatId,
+            senderId: data.senderId,
           },
         });
         if (message) {
-          const gemini = new Gemini(process.env.GEMINI_API_KEY);
-          const response = await gemini.ask(message.text);
-          console.log(response);
-          const geminiResponse = await prisma.message.create({
-            data: {
-              text: response,
-              isIA: true,
-              chatId: parseInt(chatId),
-            },
-          });
-          res.json(geminiResponse.text);
+          return { status: true, message };
         } else {
-          res.status(502).json({ message: "Message not created" });
+          return { message: "Message not created", status: false };
         }
       } else {
-        res.status(400).json({ message: "Chat not found" });
+        return { status: false, message: "Chat not found" };
       }
     } else {
-      res.status(402).json({ message: "Query chatId is required" });
+      return { status: false, message: "Query chatId is required" };
     }
   } catch (error) {
     console.log(error.errors);
-    res.status(502).send(error.message);
+    return { error: error.message, status: false };
   }
 };
 

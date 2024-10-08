@@ -13,21 +13,25 @@ model User {
     email String @unique
     phoneNumber String @unique
     password String
-    chats Chat[] // l'utilisateur peut creer plusieurs conversations
+    chats Chat[] @relation("user")
+    chatsConatct Chat[] @relation("contact")
 }
 
 model Chat {
     id Int @id @default(autoincrement())
     name String
-    userId Int 
-    user User @relation(fields: [userId], references: [id])
+    userId Int
+    contactId Int 
+    user User @relation(fields: [userId], references: [id], name: "user")
+    contact User @relation(fields: [userId], references: [id], name: "contact")
     messages Message[]
 }
 
 model Message {
     id Int @id @default(autoincrement())
     text String
-    isIA Boolean @default(false)
+    isIA Boolean? @default(false)
+    senderId Int?
     date DateTime @default(now())
     chatId Int 
     chat Chat  @relation(fields: [chatId], references: [id])
