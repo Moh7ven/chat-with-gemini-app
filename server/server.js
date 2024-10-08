@@ -35,6 +35,8 @@ const io = new Server(server, {
 io.use(async (socket, next) => {
   const handShakes = socket.handshake.auth.token;
   const verif = await verifyToken(handShakes);
+  console.log(verif);
+
   if (verif) {
     socket.session = {
       id: verif.id,
@@ -43,7 +45,7 @@ io.use(async (socket, next) => {
     next();
   } else {
     const err = new Error("unauthorized");
-    console.error(err.message);
+    // console.error(err.message);
     socket.send(err.message);
   }
 });
@@ -58,18 +60,39 @@ const getSocketId = (id) => {
     });
   });
 };
+const getUsers = (id) => {
+  const outPut = [];
+  return new Promise((next) => {
+    io.sockets.sockets.forEach((socket) => {
+      if (socket.session.id !== id) {
+        outPut.push({
+          id: socket.session.id,
+          socketId: socket.id,
+          name: socket.session.name,
+        });
+      }
+    });
+    next(outPut);
+  });
+};
 
 /* connexion of socket */
 io.on("connection", async (socket) => {
   const socketId = await getSocketId(1);
   console.log("a user connected", socketId);
-  socket.send("welcome");
-  socket.on("message", (data) => {
-    console.log(data);
+  socket.on("getUsers", async (cb) => {
+    const users = await getUsers(socket.session.id);
+    // console.log("users:", users);
+    cb(users);
   });
-  if (socketId) {
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
+
+  /* if (socketId) {
     socket.to(socketId).emit("socket", "For your socket id");
-  }
+  } */
+
   /*  socket.emit("salutation", "hello for emit");
   socket.on("helloServer", (data) => {
     console.log(data);
