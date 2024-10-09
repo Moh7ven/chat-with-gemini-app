@@ -15,7 +15,27 @@ function Principal() {
         setUsers(users);
       });
     });
+
+    socket?.on("initChat", (data) => {
+      console.log("dataRecive", data);
+    });
   }, []);
+
+  useEffect(() => {
+    if (users.length > 0) {
+      const contact = users[0];
+      socket?.emit(
+        "initChat",
+        {
+          contactId: contact.id,
+          text: "hello",
+        },
+        (data) => {
+          console.log("data", data);
+        }
+      );
+    }
+  }, [users, socket]);
 
   return (
     <>

@@ -121,6 +121,34 @@ export const addMessage = async (data) => {
   }
 };
 
+export const initiateChat = async (data) => {
+  try {
+    const newChat = await prisma.chat.create({
+      data: {
+        userId: data.userId,
+        contactId: data.contactId,
+      },
+    });
+    if (newChat) {
+      const message = await prisma.message.create({
+        data: {
+          text: data.text,
+          chatId: newChat.id,
+          senderId: data.userId,
+        },
+      });
+      if (message) {
+        return { status: true, message, chat: newChat };
+      } else {
+        return { message: "Message not created", status: false };
+      }
+    }
+  } catch (error) {
+    console.log(error.errors);
+    return { error: error.message, status: false };
+  }
+};
+
 export const getMessages = async (req, res) => {
   try {
     const chatId = req.query.chatId;

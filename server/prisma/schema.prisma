@@ -19,7 +19,7 @@ model User {
 
 model Chat {
     id Int @id @default(autoincrement())
-    name String
+    name String?
     userId Int
     contactId Int 
     user User @relation(fields: [userId], references: [id], name: "user")

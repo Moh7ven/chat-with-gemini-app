@@ -10,6 +10,8 @@ import chatRouter from "./routers/chat.router.js";
 import { checkUser } from "./middlewares/checkUser.js";
 
 import { verifyToken } from "./lib/jwt.js";
+import { initiateChat } from "./controllers/chat.controller.js";
+
 dotenv.config();
 
 const app = express();
@@ -84,6 +86,19 @@ io.on("connection", async (socket) => {
     const users = await getUsers(socket.session.id);
     // console.log("users:", users);
     cb(users);
+  });
+  socket.on("initChat", async (data, cb) => {
+    const chat = await initiateChat({ ...data, userId: socket.session.id });
+    const sendData = { ...chat.chat, messages: [chat.message] };
+    if (chat.status) {
+      const contactSocketId = await getSocketId(data.contactId);
+      if (contactSocketId) {
+        socket.to(contactSocketId).emit("initChat", {
+          data: sendData,
+        });
+      }
+      cb(sendData);
+    }
   });
   socket.on("disconnect", () => {
     console.log("user disconnected");
