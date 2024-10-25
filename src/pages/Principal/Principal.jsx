@@ -60,22 +60,18 @@ function Principal() {
     });
   }, [chats, socket]);
 
-  const fetchChat = async () => {
-    const res = await axios.get(
-      "https://chat-with-gemini-app.onrender.com/api/chat",
-      {
+  useEffect(() => {
+    axios
+      .get("https://chat-with-gemini-app.onrender.com/api/chat", {
         headers: {
           Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
         },
-      }
-    );
-    setChats(res.data.chats);
-    setConnectUserId(res.data.userId);
-    setUserName(res.data.userName);
-  };
-
-  useEffect(() => {
-    fetchChat();
+      })
+      .then((res) => {
+        setChats(res.data.chats);
+        setConnectUserId(res.data.userId);
+        setUserName(res.data.userName);
+      });
   }, []);
 
   // console.log("chats", chats);
