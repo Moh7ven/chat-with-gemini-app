@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { io } from "socket.io-client";
 export const useSocket = () => {
   const socket = useRef(
-    new io("http://localhost:4000", {
+    new io("https://chat-with-gemini-app.onrender.com", {
       auth: {
         token: `${JSON.parse(localStorage.getItem("user"))}`,
       },
