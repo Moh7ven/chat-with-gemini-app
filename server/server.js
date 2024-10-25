@@ -10,7 +10,7 @@ import chatRouter from "./routers/chat.router.js";
 import { checkUser } from "./middlewares/checkUser.js";
 
 import { verifyToken } from "./lib/jwt.js";
-import { initiateChat } from "./controllers/chat.controller.js";
+import { addMessage, initiateChat } from "./controllers/chat.controller.js";
 
 dotenv.config();
 
@@ -55,11 +55,14 @@ io.use(async (socket, next) => {
 const getSocketId = (id) => {
   return new Promise((next) => {
     io.sockets.sockets.forEach((socket) => {
+      console.log("socket:", socket.session);
+      console.log("id:", id);
+
       if (socket.session.id === id) {
         next(socket.id);
       }
-      next(null);
     });
+    next(null);
   });
 };
 const getUsers = (id) => {
@@ -87,17 +90,37 @@ io.on("connection", async (socket) => {
     // console.log("users:", users);
     cb(users);
   });
-  socket.on("initChat", async (data, cb) => {
-    const chat = await initiateChat({ ...data, userId: socket.session.id });
-    const sendData = { ...chat.chat, messages: [chat.message] };
-    if (chat.status) {
+
+  socket.on("sendMessage", async (data, cb) => {
+    let message;
+    if (data.chatId) {
+      message = await addMessage({
+        ...data,
+        senderId: socket.session.id,
+      });
+    } else {
+      message = await initiateChat({ ...data, userId: socket.session.id });
+    }
+    console.log(message);
+    if (message.status) {
+      const sendData = data.chatId
+        ? {
+            messages: message.message,
+            userId: message.userId,
+            contactId: message.contactId,
+          }
+        : { ...message.chat, messages: [message.message] };
       const contactSocketId = await getSocketId(data.contactId);
+      console.log("contactSocketId:", contactSocketId);
       if (contactSocketId) {
-        socket.to(contactSocketId).emit("initChat", {
+        socket.to(contactSocketId).emit("sendMessage", {
           data: sendData,
+          isNew: data.chatId ? false : true,
         });
       }
       cb(sendData);
+
+      console.log("data:", data);
     }
   });
   socket.on("disconnect", () => {

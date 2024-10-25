@@ -23,8 +23,10 @@ model Chat {
     userId Int
     contactId Int 
     user User @relation(fields: [userId], references: [id], name: "user")
-    contact User @relation(fields: [userId], references: [id], name: "contact")
+    contact User @relation(fields: [contactId], references: [id], name: "contact")
     messages Message[]
+    @@unique([userId, contactId])
+    @@map("Chats") //Pour renommer le model
 }
 
 model Message {

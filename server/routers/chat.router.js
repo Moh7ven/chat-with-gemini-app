@@ -4,6 +4,7 @@ import {
   createChat,
   deleteChat,
   getAllChatByUser,
+  getChats,
   getMessages,
 } from "../controllers/chat.controller.js";
 
@@ -14,5 +15,6 @@ router.post("/message", addMessage);
 router.get("/getAllChats", getAllChatByUser);
 router.get("/getMessages", getMessages);
 router.delete("/:id", deleteChat);
+router.get("/", getChats);
 
 export default router;

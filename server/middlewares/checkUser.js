@@ -16,6 +16,7 @@ export const checkUser = async (req, res, next) => {
         });
         if (user) {
           res.locals.userId = verify.id;
+          res.locals.userName = verify.name;
           next();
         } else res.status(403).send("User not found");
       } else res.status(403).send("Token not valid");

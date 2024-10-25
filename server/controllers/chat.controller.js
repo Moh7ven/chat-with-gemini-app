@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma-client.js";
-import Gemini from "gemini-ai";
+
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -86,9 +86,9 @@ export const deleteChat = async (req, res) => {
 export const addMessage = async (data) => {
   try {
     let chatId = data.chatId;
-    let text = data.text;
+    let text = data.message;
     if (!text) {
-      return { message: "Text is required" };
+      return { status: false, message: "Text is required" };
     }
     if (chatId) {
       const chat = await prisma.chat.findFirst({
@@ -105,7 +105,12 @@ export const addMessage = async (data) => {
           },
         });
         if (message) {
-          return { status: true, message };
+          return {
+            status: true,
+            message: message,
+            userId: chat.userId,
+            contactId: chat.contactId,
+          };
         } else {
           return { message: "Message not created", status: false };
         }
@@ -135,6 +140,10 @@ export const initiateChat = async (data) => {
           text: data.text,
           chatId: newChat.id,
           senderId: data.userId,
+        },
+        include: {
+          user: true,
+          contact: true,
         },
       });
       if (message) {
@@ -168,6 +177,39 @@ export const getMessages = async (req, res) => {
       }
     } else {
       res.status(402).json({ message: "Query chatId is required" });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(502).send(error.message);
+  }
+};
+
+export const getChats = async (req, res) => {
+  try {
+    const chats = await prisma.chat.findMany({
+      where: {
+        OR: [
+          {
+            userId: res.locals.userId,
+          },
+          {
+            contactId: res.locals.userId,
+          },
+        ],
+      },
+      include: {
+        user: true,
+        contact: true,
+        messages: true,
+      },
+    });
+    if (chats) {
+      return res.json({
+        chats,
+        status: true,
+        userId: res.locals.userId,
+        userName: res.locals.userName,
+      });
     }
   } catch (error) {
     console.log(error.message);
