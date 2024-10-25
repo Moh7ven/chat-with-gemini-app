@@ -21,7 +21,7 @@ export default function SignIn() {
   const signIn = async () => {
     console.log(donnee);
     const request = await axios.post(
-      process.env.IP_SERVER + "/api/auth/signIn",
+      "https://chat-with-gemini-app.onrender.com/api/auth/signIn",
       donnee
     );
     if (request.data.status === true) {

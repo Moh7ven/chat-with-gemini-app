@@ -61,11 +61,14 @@ function Principal() {
   }, [chats, socket]);
 
   const fetchChat = async () => {
-    const res = await axios.get(process.env.IP_SERVER + "/api/chat", {
-      headers: {
-        Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
-      },
-    });
+    const res = await axios.get(
+      "https://chat-with-gemini-app.onrender.com/api/chat",
+      {
+        headers: {
+          Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
+        },
+      }
+    );
     setChats(res.data.chats);
     setConnectUserId(res.data.userId);
     setUserName(res.data.userName);
