@@ -61,7 +61,7 @@ function Principal() {
   }, [chats, socket]);
 
   const fetchChat = async () => {
-    const res = await axios.get("http://localhost:4000/api/chat", {
+    const res = await axios.get(`${process.env.IP_SERVER}/api/chat`, {
       headers: {
         Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
       },
