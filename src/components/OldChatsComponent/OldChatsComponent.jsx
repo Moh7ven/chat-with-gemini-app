@@ -12,11 +12,14 @@ function OldChatsComponent({ chat }) {
 
   const deleteChat = async () => {
     const chatId = chat.id;
-    const del = await axios.delete(`http://localhost:4000/api/chat/${chatId}`, {
-      headers: {
-        Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
-      },
-    });
+    const del = await axios.delete(
+      `https://chat-with-gemini-app.onrender.com/api/chat/${chatId}`,
+      {
+        headers: {
+          Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
+        },
+      }
+    );
     if (del.data.status === true) {
       window.location.reload();
     } else {
