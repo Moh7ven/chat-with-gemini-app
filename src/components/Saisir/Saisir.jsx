@@ -15,7 +15,7 @@ function Saisir() {
 
   const sendRequest = async (message) => {
     const req = await axios.post(
-      `http://localhost:4000/api/chat/message?chatId=${params.chatId}`,
+      `https://chat-with-gemini-app.onrender.com/api/chat/message?chatId=${params.chatId}`,
       {
         text: message,
       },
@@ -53,7 +53,8 @@ function Saisir() {
     }
     axios
       .get(
-        "http://localhost:4000/api/chat/getMessages?chatId=" + params.chatId,
+        "https://chat-with-gemini-app.onrender.com/api/chat/getMessages?chatId=" +
+          params.chatId,
         {
           headers: {
             Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
