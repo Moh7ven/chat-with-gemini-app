@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 
 import dotenv from "dotenv";
 // import prisma from "./lib/prisma-client.js";
@@ -14,8 +15,18 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/* serve static files */
+app.use(express.static(path.join(import.meta.dirname, "../dist")));
+
 app.use("/api/auth", authRouter);
 app.use("/api/chat", checkUser, chatRouter);
+
+app.use("/", (req, res) => {
+  res.sendFile(path.join(import.meta.dirname, "../dist", "index.html"));
+});
+app.use("*", (req, res) => {
+  res.sendFile(path.join(import.meta.dirname, "../dist", "index.html"));
+});
 
 app.listen(4000, () => {
   console.log("Server is running on port 4000");
