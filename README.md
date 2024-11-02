@@ -18,20 +18,38 @@ Chat with Gemini AI and get an answer
    npm install
    ```
 
-4. Start react server
+4. move to server folder
+
+   ```bash
+   cd server
+   ```
+
+5. Genarate prisma schema
+
+   ```bash
+   npx prisma generate
+   ```
+
+6. Push the database
+
+   ```bash
+   npx prisma db push
+   ```
+
+7. Start react server
 
    ```bash
    npm run dev
    ```
 
-5. Start gemini server
+8. Start gemini server
 
    ```bash
    npm run serve
    ```
 
-6. Open the browser and go to [http://localhost:5173/](http://localhost:5173/)
+9. Open the browser and go to [http://localhost:5173/](http://localhost:5173/)
 
-7. Image
+10. Image
 
-   ![gemini](./public/demo.jpeg)
+    ![gemini](./public/demo.jpeg)
