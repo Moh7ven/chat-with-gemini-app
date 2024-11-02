@@ -23,7 +23,7 @@ export default function SignUp() {
     console.log(donnee);
 
     const request = await axios.post(
-      "http://localhost:4000/api/auth/signUp",
+      "https://chat-with-gemini-app.onrender.com/api/auth/signUp",
       donnee
     );
     console.log(request.data);

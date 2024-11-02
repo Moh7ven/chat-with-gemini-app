@@ -13,7 +13,7 @@ function Chat() {
 
   const addNewChat = async () => {
     const newChat = await axios.post(
-      "http://localhost:4000/api/chat",
+      "https://chat-with-gemini-app.onrender.com/api/chat",
       {
         name: chatTitle,
       },
@@ -42,7 +42,7 @@ function Chat() {
       navigate("/signin");
     }
     axios
-      .get("http://localhost:4000/api/chat/getAllChats", {
+      .get("https://chat-with-gemini-app.onrender.com/api/chat/getAllChats", {
         headers: {
           Authorization: `${JSON.parse(localStorage.getItem("user"))}`,
         },
