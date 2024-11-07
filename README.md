@@ -51,8 +51,7 @@ Chat with Gemini AI and get an answer
 9. Open the browser and go to [http://localhost:5173/](http://localhost:5173/)
 
 10. Image
-
     ![gemini](./public/demo.jpeg)
 
 11. Demo
-    ![demo](./public/demo.gif)
+   ![demo](./public/demo.gif)
