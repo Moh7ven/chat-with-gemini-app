@@ -36,3 +36,6 @@ Chat with Gemini AI and get an answer
 
    ![gemini](./public/demo.jpeg)
 
+8. Demo
+
+   ![demo](./public/demo.gif)
