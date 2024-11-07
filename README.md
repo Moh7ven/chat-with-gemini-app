@@ -53,3 +53,6 @@ Chat with Gemini AI and get an answer
 10. Image
 
     ![gemini](./public/demo.jpeg)
+
+11. Demo
+    ![demo](./public/demo.gif)
