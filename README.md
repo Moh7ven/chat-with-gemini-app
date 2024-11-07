@@ -35,3 +35,7 @@ Chat with Gemini AI and get an answer
 7. Image
 
    ![gemini](./public/demo.jpeg)
+
+8. Demo
+
+   ![demo](./public/demo.gif)
